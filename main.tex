@@ -1,0 +1,103 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Define Article %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{ctexart}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Using Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage[UTF8]{ctex} % 中文
+\usepackage{geometry}
+\usepackage{graphicx} % 图片
+%\usepackage{amssymb}
+%\usepackage{amsmath}
+%\usepackage{amsthm}
+%\usepackage{empheq}
+\usepackage{mdframed}
+\usepackage{booktabs}
+%%\usepackage{lipsum}
+\usepackage{color}
+\usepackage{psfrag}
+%\usepackage{bm}
+\usepackage{pdfpages}
+%\usepackage{pgfplots}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{minted} % 代码
+\usepackage{subfiles} % 多文件
+%\usepackage{unicode-math} % 数学公式自定义字体
+%\usepackage{physics} % 微分符号
+%\usepackage{tasks} % 选择题
+\usepackage{xcolor} % 自定义颜色
+%\usepackage{pifont} % 带圈的数字
+%\usepackage{tcolorbox} % 框
+%\usepackage{subcaption} % 格式化图表标题
+%\usepackage{scalerel} % 大括号
+%\usepackage{multirow} % 合并单元格
+%\usepackage{multicol} % 双栏
+%\usepackage{makecell} % 设置单元格格式
+% 表格
+%\usepackage{tabularx}
+%\newcolumntype{Z}{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}X}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Other Settings
+\hypersetup{hypertex=true,
+  bookmarks=true,
+  bookmarksnumbered=true,
+  hidelinks,
+  colorlinks=true,
+  linkcolor=blue,
+  anchorcolor=blue,
+  citecolor=blue,
+  urlcolor=blue,
+  pdftitle={Data security},
+  pdfauthor={Fuck you},
+  pdfsubject={Fuck you},
+  pdfkeywords={Fuck you},
+  pdfstartview=Fit,
+  pdfcreator={Fuck you},
+pdfproducer={Fuck you}}
+
+%\PassOptionsToPackage{AutoFakeBold}{xeCJK}
+%\PassOptionsToPackage{quiet}{fontspec}
+
+\graphicspath{{figures/}}
+
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+% 首行缩进2个中文字符
+
+%\usepackage{setspace}
+%\renewcommand{\baselinestretch}{1.5}
+% 1.5倍行距
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% Page Setting %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\geometry{a4paper}
+%\geometry{papersize={21cm,29.7cm}}
+% 默认大小为A4
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+% 设置四级目录与标题
+%\geometry{left=3.18cm,right=3.18cm,top=2.54cm,bottom=2.54cm}
+% 默认页边距为1英尺与1.25英尺
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% Define some useful colors %%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{bg}{rgb}{0.95,0.95,0.95}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Title & Author %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{使用生成式对抗网络的联邦学习投毒方法}
+%\author{author}
+%\date{ }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+  \maketitle
+  %\includepdf[pages={1-1}]{./assets/cover.pdf}
+  \tableofcontents
+  \newpage
+
+  \subfile{sections/1.tex}
+  \subfile{sections/2.tex}
+  \subfile{sections/3.tex}
+  \subfile{sections/4.tex}
+  \subfile{sections/5.tex}
+\end{document}
