@@ -8,14 +8,14 @@
 %XXXXXXX(title)
 %比如：一种面向联邦学习模型的数据投毒方法及实验
 
-\textbf{报告要求}: \texttt{从以下课题中任选 1 个课题，调研、学习、并撰写一个课程技术报告}。
+%\textbf{报告要求}: \texttt{从以下课题中任选 1 个课题，调研、学习、并撰写一个课程技术报告}。
 
-\textbf{可选课题}:
-\begin{itemize}
-  \item \texttt{AI 模型攻击方法及实验实践}
-  \item \texttt{AI 模型防御方法及实验实践}
-  \item \texttt{去隐私技术及实验实践}
-\end{itemize}
+%\textbf{可选课题}:
+%\begin{itemize}
+%\item \texttt{AI 模型攻击方法及实验实践}
+%\item \texttt{AI 模型防御方法及实验实践}
+%\item \texttt{去隐私技术及实验实践}
+%\end{itemize}
 
 % 【报告内容建议】调研并学习针对数据集或 AI 模型的攻防技术方法，
 % 并进行一定的实验实践，尽量能够给出一定验证结果及描述。
@@ -39,7 +39,7 @@
 \begin{equation}
   m_{i+1} = m_i + \frac{1}{n}\sum_{k=1}^{n}g_i^k
 \end{equation}
-其中, $ m_{i+1} $ 表示在第 $ i $ 轮迭代时共享的模型(参数),
+其中, $ m_{i} $ 表示在第 $ i $ 轮迭代时共享的模型(参数),
 $ g_i^k $ 表示第 $ k $ 个用户在第 $ i $ 轮迭代上传的梯度.
 
 联邦学习的主要目的是在本地化数据集的基础上, 构建一个联合的机器学习模型,
@@ -89,5 +89,7 @@ G 和 D 的性能都可以得到提高。下面是 GAN 的训练目标:
   \min_G\max_D V(D, G) = \mathbb{E}_{x\sim p_{data}(x)}[\log D(x)]
   + \mathbm{E}_{z\sim p_{z}(z)}[\log(1 - D(G(z)))]
 \end{equation}
+其中 $ p_{data}(x) $ 是原始图像服从的分布, $ p_z(z) $ 是随机向量 $ z $
+服从的分布.
 %
 \end{document}
