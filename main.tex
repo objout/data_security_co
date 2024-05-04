@@ -5,22 +5,70 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% Using Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\usepackage[UTF8]{ctex} % 中文
 \usepackage{geometry}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\renewcommand{\algorithmicrequire}{\textbf{输入:}}
+\renewcommand{\algorithmicensure}{\textbf{输出:}}
+
+% numbers with circle
+% ------------------------------------------------------
+\makeatletter
+\newenvironment{breakablealgorithm}
+{% \begin{breakablealgorithm}
+\begin{center} %
+\refstepcounter{algorithm}% New algorithm
+%\hrule height.8pt depth0pt \kern2pt% \@fs@pre for \@fs@ruled
+\hrule height.8pt depth0pt \kern2pt% \@fs@pre for \@fs@ruled
+\renewcommand{\caption}[2][\relax]{% Make a new \caption
+{\raggedright\textbf{\ALG@name~\thealgorithm} ##2\par}
+
+\ifx\relax##1\relax
+
+\addcontentsline{loa}{algorithm}{\protect\numberline{\thealgorithm}##2}%
+
+\else
+
+\addcontentsline{loa}{algorithm}{\protect\numberline{\thealgorithm}##1}%
+
+\fi
+
+\kern2pt\hrule\kern2pt
+
+}
+
+}{% \end{breakablealgorithm}
+
+\kern2pt\hrule\relax% \@fs@post for \@fs@ruled
+
+\end{center} %
+
+}
+
+\makeatother
+
+% ------------------------------------------------------
+
 \usepackage{graphicx} % 图片
-%\usepackage{amssymb}
-%\usepackage{amsmath}
-%\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+%\usepackage{mathrsfs}
+\usepackage{dutchcal}
 %\usepackage{empheq}
 \usepackage{mdframed}
 \usepackage{booktabs}
 %%\usepackage{lipsum}
 \usepackage{color}
-\usepackage{psfrag}
+%\usepackage{psfrag}
 %\usepackage{bm}
 \usepackage{pdfpages}
 %\usepackage{pgfplots}
 \usepackage{float}
+%\floatname{algorithm}{算法}
+%\floatname{breakablealgorithm}{算法}
 \usepackage{hyperref}
-\usepackage{minted} % 代码
+%\usepackage{minted} % 代码
 \usepackage{subfiles} % 多文件
 %\usepackage{unicode-math} % 数学公式自定义字体
 %\usepackage{physics} % 微分符号
@@ -90,14 +138,13 @@ pdfproducer={Fuck you}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
+  \includepdf[pages={1-1}]{./assets/cover.pdf}
   \maketitle
-  %\includepdf[pages={1-1}]{./assets/cover.pdf}
   \tableofcontents
   \newpage
 
   \subfile{sections/1.tex}
   \subfile{sections/2.tex}
-  \subfile{sections/3.tex}
   \subfile{sections/4.tex}
   \subfile{sections/5.tex}
 \end{document}

@@ -5,7 +5,7 @@
 \section{技术原理及方法}
 \subsection{威胁模型}
 \subsubsection{学习的背景}
-这里的威胁模型考虑多个参与者($ N \geqslant 2 $) 在各自本地的训练数据集上
+这里的威胁模型考虑多个参与者($ N \geq 2 $) 在各自本地的训练数据集上
 联合训练全局模型的情况. 我们假设在这些参与者中存在一个或多个的攻击者,
 攻击者的目的是模拟其他参与者的数据并污染全局模型, 而中央服务器和大多数的参与者
 不存在恶意投毒的目的, 即中央服务器和绝大多数的参与者是可信任的.
@@ -74,5 +74,72 @@ GAN 是两个神经网络间的对抗博弈, 即生成器 $ G $ 和判别器 $ D
 可以使用这种方式生成高质量的伪造数据. 这些伪造的数据经过投毒会影响全局模型
 在特定类别上的分类性能.
 \subsubsection{基于 GAN 的投毒攻击}
+根据以上分析, 实施攻击的关键点是攻击者在本地的训练数据中投毒,
+训练完成后将模型的更新 $ \Delta L^p $ 上传至中央服务器.
+投毒攻击可归结为如下步骤:
+\begin{enumerate}
+  \item 假定 $ P $ 和 $ A $ 为联邦学习系统中的两个参与者,
+    二者的训练数据集对其他参与者保密(类别 $ a $ 和 $ b $);
+  \item 通过联邦学习迭代全局模型直至精度达到一定水平;
+  \item 对于参与者 $ P $:
+    \begin{enumerate}
+      \item 下载全局模型以更新$ P $的本地模型;
+      \item 在本地数据集上训练模型, 并将本地的更新 $ \Delta L^i $
+        上传至中央服务器;
+    \end{enumerate}
+  \item 对于攻击者 $ A $:
+    \begin{enumerate}
+      \item 下载全局模型以更新 $ A $ 的本地模型;
+      \item 复制新的本地模型, 将其作为 $ D $(判别器),
+        在 $ D $ 的基础上运行 $ G $ (生成器) 以模拟
+        $ P $ 的类别 $ a $ 中的数据;
+      \item 将生成的类别 $ a $ 数据标记为类别 $ b $,
+        并将数据插入到 $ A $ 的本地数据集中;
+      \item 在投过毒的数据集上训练本地模型得到
+        新的投毒的模型, 模型更新为 $ \Delta L^p $;
+      \item 选定某个常数因子 $ \lambda $, 将 $ \Delta L^p $
+        扩大对应的规模, 将投毒的更新 $ \lambda\Delta L^p $
+        上传至中央服务器;
+    \end{enumerate}
+  \item 重复步骤 $ 3 $ 和 $ 4 $ 直到全局模型收敛.
+\end{enumerate}
+步骤 $ 4 $ 的子步骤 $ (2) $ 到 $ (5) $ 描述的是投毒数据的生成和
+投毒攻击的实施. 这种投毒方法的效率仅取决于全局模型(判别器)的精确度.
+
+拥有多个攻击者的一般化的投毒攻击在下面给出.
+
+\begin{breakablealgorithm}
+  \caption{联邦学习中的投毒攻击}
+  \begin{algorithmic}
+    \Require 全局模型 $ M_t $; 参与者对模型的更新 $ \Delta L_t^i $;
+    损失函数 $ \mathcal{l} $; 学习率 $ \eta $.
+    \Ensure 投毒的模型更新 $ \Delta \hat{L}_t^i $.
+    \State 初始化生成器 $ G $ 和判别器 $ D $
+    \For{$t \in (1, 2, \cdots, T)$}
+    \State 将 $ M_t $ 发送给参与者 \Comment{服务端执行}
+    \State 接收来自参与者的更新: $ \Delta L_{t+1}^i $
+    \State 更新全局模型: $ M_{t+1} $
+    \State 替换本地模型: $ L_t^i \gets M_t $ \Comment{参与者执行}
+    \If{参与者是 $ A $(攻击者)}
+    \State 根据新的本地模型 $ L_t^i $ 初始化 $ D $
+    \For{$ \texttt{each epoch } e \in (1, \cdots, E) $}
+    \State 在 $ D $ 的基础上为目标类别运行 $ G $
+    \State 使用 $ D $ 更新 $ G $
+    \State 使用 $ G $ 生成目标类别的样本
+    \State 将错误的标签和生成的样本关联
+    \State 将投毒数据注入本地训练数据集 $ \mathcal{D} $
+    \For{$ \texttt{each batch } b_p \in \mathcal{D}_{poison} $}
+    \State $ L_{t+1}^p = L_{t+1}^p - \eta_{adv}\nabla\mathcal{l}(L_t^p, b_p) $
+    \EndFor
+    \EndFor
+    \State 计算投毒更新: $ \Delta L_{t+1}^p = L_{t+1}^p - L_t^p $
+    \State 增大投毒规模: $ \Delta \hat{L}_{t+1}^p = \lambda \Delta L_{t+1}^p $;
+    \Else
+    \State 计算参与者的模型更新: $ \Delta L_{t+1}^i = L_{t+1}^i - L_t^i $;
+    \EndIf
+    \State 上传本地模型更新 $ \Delta L_{t+1}^i $(包含 $ \Delta \hat{L}_{t+1}^p $) 至中央服务器
+    \EndFor
+  \end{algorithmic}
+\end{breakablealgorithm}
 %
 \end{document}

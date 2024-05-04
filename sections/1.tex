@@ -86,8 +86,8 @@ GAN 结构中有两个神经网络:
 可用于区分输入是真实的还是虚假的。通过进行对抗训练的博弈,
 G 和 D 的性能都可以得到提高。下面是 GAN 的训练目标:
 \begin{equation}
-  \min_G\max_D V(D, G) = \mathbb{E}_{x\sim p_{data}(x)}[\log D(x)]
-  + \mathbm{E}_{z\sim p_{z}(z)}[\log(1 - D(G(z)))]
+  \min_G\max_D V(D, G) = E_{x\sim p_{data}(x)}[\log D(x)]
+  + E_{z\sim p_{z}(z)}[\log(1 - D(G(z)))]
 \end{equation}
 其中 $ p_{data}(x) $ 是原始图像服从的分布, $ p_z(z) $ 是随机向量 $ z $
 服从的分布.
